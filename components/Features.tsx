@@ -88,28 +88,6 @@ const Features = () => {
           ))}
         </div>
 
-        {/* Additional Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">Ready to Start Trading?</h3>
-            <p className="text-lg mb-6 opacity-90">
-              Join thousands of successful traders who trust BDS PRO for their crypto investments.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-            >
-              Get Started Now
-            </motion.button>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
