@@ -32,9 +32,14 @@ export default function DepositsPage() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Deposit address (this would come from your backend)
-  const depositAddress = "Bdffca28ad996742570mmcb7ffd1f56b7d12c30";
-  const qrCodeData = `tron:${depositAddress}`;
+  // Deposit addresses for different networks (this would come from your backend)
+  const depositAddresses = {
+    trc20: "TTxh7Fv9Npov8rZGYzYzwcUWhQzBEpAtzt",
+    bep20: "0xdfca28ad998742570aecb7ffde1fe564b7d42c30"
+  };
+  
+  const depositAddress = depositAddresses[selectedNetwork as keyof typeof depositAddresses];
+  const qrCodeData = selectedNetwork === 'trc20' ? `tron:${depositAddress}` : `ethereum:${depositAddress}`;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -222,8 +227,16 @@ export default function DepositsPage() {
             {/* QR Code */}
             <div className="text-center mb-6">
               <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-lg">
-                <div className="w-48 h-48 bg-gray-100 flex items-center justify-center rounded-lg">
-                  <QrCode className="w-24 h-24 text-gray-400" />
+                <div className="w-48 h-48 bg-white flex items-center justify-center rounded-lg">
+                  {/* QR Code would be generated here - for now showing a placeholder */}
+                  <div className="w-44 h-44 bg-black grid grid-cols-8 grid-rows-8 gap-0.5 p-2">
+                    {Array.from({ length: 64 }, (_, i) => (
+                      <div 
+                        key={i} 
+                        className={`w-full h-full ${Math.random() > 0.5 ? 'bg-black' : 'bg-white'}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -278,7 +291,9 @@ export default function DepositsPage() {
               </div>
               <div className="flex justify-between">
                 <span>Network Fee:</span>
-                <span className="font-medium text-green-600">-1.5 USDT</span>
+                <span className="font-medium text-green-600">
+                  {selectedNetwork === 'trc20' ? '~1-5 USDT' : '-1.5 USDT'}
+                </span>
               </div>
             </div>
           </div>
