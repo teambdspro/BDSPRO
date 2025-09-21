@@ -59,12 +59,6 @@ export default function MyAccountPage() {
   const [hashPassword, setHashPassword] = useState<string>('');
   const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
   
-  // Withdrawal state
-  const [withdrawalNetwork, setWithdrawalNetwork] = useState<string>('TRC20');
-  const [withdrawalHash, setWithdrawalHash] = useState<string>('');
-  const [withdrawalAmount, setWithdrawalAmount] = useState<string>('');
-  const [withdrawalUid, setWithdrawalUid] = useState<string>('');
-  const [withdrawalEmail, setWithdrawalEmail] = useState<string>('');
 
   useEffect(() => {
     loadPaymentMethods();
@@ -536,50 +530,6 @@ export default function MyAccountPage() {
     }
   };
 
-  const handleWithdrawalSubmit = async () => {
-    if (!withdrawalHash.trim() || !withdrawalUid.trim() || !withdrawalEmail.trim() || !withdrawalAmount || parseFloat(withdrawalAmount) < 10) {
-      toast.error('Please fill in all required fields (minimum 10 USDT)');
-      return;
-    }
-
-    if (!userData?.user_id) {
-      toast.error('User data not found. Please refresh the page.');
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/withdrawals/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: userData.user_id,
-          email: withdrawalEmail,
-          network: withdrawalNetwork,
-          transactionHash: withdrawalHash,
-          transactionUid: withdrawalUid,
-          amount: parseFloat(withdrawalAmount),
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (result.success) {
-        toast.success('Withdrawal request submitted successfully! It will be processed within 60 minutes.');
-        setWithdrawalHash('');
-        setWithdrawalUid('');
-        setWithdrawalEmail('');
-        setWithdrawalAmount('');
-        setWithdrawalNetwork('TRC20');
-      } else {
-        toast.error(result.message || 'Failed to submit withdrawal request');
-      }
-    } catch (error) {
-      console.error('Error submitting withdrawal:', error);
-      toast.error('Failed to submit withdrawal request');
-    }
-  };
 
   if (loading) {
   return (
@@ -690,105 +640,6 @@ export default function MyAccountPage() {
             </div>
           </div>
 
-            {/* Withdrawal Section */}
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-yellow-800 mb-4">Withdrawal Request</h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-yellow-700 mb-2">Payment Network *</label>
-                  <div className="flex space-x-4">
-                    <button
-                      type="button"
-                      onClick={() => setWithdrawalNetwork('TRC20')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        withdrawalNetwork === 'TRC20'
-                          ? 'bg-yellow-600 text-white'
-                          : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                      }`}
-                    >
-                      TRC20 (Tron)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setWithdrawalNetwork('BEP20')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        withdrawalNetwork === 'BEP20'
-                          ? 'bg-yellow-600 text-white'
-                          : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                      }`}
-                    >
-                      BEP20 (BSC)
-                    </button>
-            </div>
-          </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-yellow-700 mb-2">Transaction Hash *</label>
-                  <input
-                    type="text"
-                    value={withdrawalHash}
-                    onChange={(e) => setWithdrawalHash(e.target.value)}
-                    placeholder="Enter your transaction hash"
-                    className="w-full px-3 py-2 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-yellow-700 mb-2">Transaction UID *</label>
-                  <input
-                    type="text"
-                    value={withdrawalUid}
-                    onChange={(e) => setWithdrawalUid(e.target.value)}
-                    placeholder="Enter transaction UID"
-                    className="w-full px-3 py-2 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-yellow-700 mb-2">Email Address *</label>
-                  <input
-                    type="email"
-                    value={withdrawalEmail}
-                    onChange={(e) => setWithdrawalEmail(e.target.value)}
-                    placeholder="Enter your email address"
-                    className="w-full px-3 py-2 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-yellow-700 mb-2">Withdrawal Amount (USDT) *</label>
-                  <input
-                    type="number"
-                    value={withdrawalAmount}
-                    onChange={(e) => setWithdrawalAmount(e.target.value)}
-                    placeholder="Enter withdrawal amount"
-                    min="10"
-                    step="0.01"
-                    className="w-full px-3 py-2 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                    required
-                  />
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                  <p className="text-sm text-blue-800">
-                    <strong>Withdrawal Process:</strong> Your withdrawal will be processed within 60 minutes to your account. Please ensure the transaction hash is correct and matches the selected network.
-                  </p>
-                </div>
-                
-                <button
-                  type="button"
-                  onClick={handleWithdrawalSubmit}
-                  disabled={!withdrawalHash || !withdrawalUid || !withdrawalEmail || !withdrawalAmount || parseFloat(withdrawalAmount) < 10}
-                  className="w-full bg-yellow-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-yellow-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                >
-                  Submit Withdrawal Request
-                </button>
-              </div>
-            </div>
           </div>
 
           {/* Right Column - Payment Information */}
