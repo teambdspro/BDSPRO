@@ -32,8 +32,8 @@ export default function LoginForm() {
 
       if (response.ok) {
         // Store user data in localStorage
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('userData', JSON.stringify(data.data.user));
+        localStorage.setItem('authToken', data.data.token);
         
         // Redirect to dashboard
         router.push('/dashboard');
@@ -52,14 +52,8 @@ export default function LoginForm() {
     try {
       const result = await signIn('google', { 
         callbackUrl: '/dashboard',
-        redirect: false 
+        redirect: true 
       });
-      
-      if (result?.ok) {
-        router.push('/dashboard');
-      } else {
-        setError('Google sign-in failed. Please try again.');
-      }
     } catch (error) {
       console.error('Google sign-in error:', error);
       setError('Google sign-in failed. Please try again.');

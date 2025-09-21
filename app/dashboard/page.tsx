@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { LogOut, User, Users, LayoutGrid, Wallet, TrendingUp, Gift, Briefcase, ArrowUpRight, Home } from 'lucide-react';
 
 type StatCard = {
@@ -13,6 +14,7 @@ type StatCard = {
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   
@@ -74,6 +76,25 @@ export default function DashboardPage() {
   };
 
   // Check authentication on component mount
+  // Handle NextAuth session
+  useEffect(() => {
+    if (status === 'loading') {
+      setLoading(true);
+      return;
+    }
+    
+    if (status === 'authenticated' && session) {
+      console.log('NextAuth session found:', session);
+      setIsAuthenticated(true);
+      setLoading(false);
+      return;
+    }
+    
+    if (status === 'unauthenticated') {
+      console.log('NextAuth session not found, checking localStorage');
+    }
+  }, [status, session]);
+
   useEffect(() => {
     const checkAuth = async () => {
       console.log('=== AUTH CHECK START ===');
@@ -114,7 +135,7 @@ export default function DashboardPage() {
         return;
       }
 
-      // Regular token check
+      // Check for regular token or NextAuth session
       const storedToken = localStorage.getItem('authToken');
       const storedUserData = localStorage.getItem('userData');
       
@@ -122,42 +143,16 @@ export default function DashboardPage() {
       console.log('Stored token:', storedToken ? `${storedToken.substring(0, 20)}...` : 'MISSING');
       console.log('Stored user data:', storedUserData ? 'PRESENT' : 'MISSING');
       
-      if (!storedToken) {
-        console.log('No token found, redirecting to login');
-        router.push('/login');
-        return;
-      }
-
-      try {
-        // Basic token format validation
-        if (storedToken.length < 10) {
-          console.error('Token too short, redirecting to login');
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('userData');
-          router.push('/login');
-          return;
-        }
-        
-        // Check if token looks like a JWT (has dots)
-        if (!storedToken.includes('.')) {
-          console.error('Token does not appear to be a JWT, redirecting to login');
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('userData');
-          router.push('/login');
-          return;
-        }
-        
-        console.log('Token format looks valid, setting authenticated');
+      // Check if we have either a stored token or user data
+      if (storedToken || storedUserData) {
+        console.log('Authentication data found, setting authenticated');
         setIsAuthenticated(true);
-        
-      } catch (error) {
-        console.error('Auth check failed:', error);
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userData');
+      } else {
+        console.log('No authentication data found, redirecting to login');
         router.push('/login');
-      } finally {
-        setLoading(false);
       }
+      
+      setLoading(false);
     };
 
     checkAuth();
@@ -250,6 +245,9 @@ export default function DashboardPage() {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    // NextAuth will handle its own session cleanup
     router.push('/login');
   };
 
