@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { LogOut, User, Users, LayoutGrid, Wallet, TrendingUp, Gift, Briefcase, ArrowUpRight, Home } from 'lucide-react';
+import { LogOut, User, Users, LayoutGrid, Wallet, TrendingUp, Gift, Briefcase, ArrowUpRight, ArrowDownLeft, Home } from 'lucide-react';
 
 type StatCard = {
   title: string;
@@ -396,6 +396,14 @@ export default function DashboardPage() {
             <SidebarLink href="/dashboard">
               <LayoutGrid className="h-5 w-5" />
               <span>Dashboard</span>
+            </SidebarLink>
+            <SidebarLink href="/deposits">
+              <ArrowDownLeft className="h-5 w-5" />
+              <span>Deposits</span>
+            </SidebarLink>
+            <SidebarLink href="/withdrawals">
+              <ArrowUpRight className="h-5 w-5" />
+              <span>Withdrawals</span>
             </SidebarLink>
             <SidebarLink href="/account">
               <User className="h-5 w-5" />
