@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       // Redirect to Google OAuth
       const googleAuthUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
       googleAuthUrl.searchParams.set('client_id', process.env.GOOGLE_CLIENT_ID || '');
-      googleAuthUrl.searchParams.set('redirect_uri', (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000') + '/api/auth/google');
+      googleAuthUrl.searchParams.set('redirect_uri', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000');
       googleAuthUrl.searchParams.set('response_type', 'code');
       googleAuthUrl.searchParams.set('scope', 'openid email profile');
       googleAuthUrl.searchParams.set('access_type', 'offline');
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
           client_secret: process.env.GOOGLE_CLIENT_SECRET || '',
           code,
           grant_type: 'authorization_code',
-          redirect_uri: (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000') + '/api/auth/google',
+          redirect_uri: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
         }),
       });
 
