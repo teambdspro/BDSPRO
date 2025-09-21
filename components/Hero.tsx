@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-secondary-50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
       
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -54,11 +54,11 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
             className="mb-8"
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               The Future of{' '}
               <span className="gradient-text">Crypto Trading</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Empowering traders through high-quality tools, education, and support. 
               Start your journey with BDS PRO today.
             </p>
@@ -112,10 +112,10 @@ const Hero = () => {
                     <stat.icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+                <div className="text-2xl md:text-3xl font-bold text-white mb-1">
                   {stat.value}
                 </div>
-                <div className="text-gray-600 font-medium">
+                <div className="text-gray-300 font-medium">
                   {stat.label}
                 </div>
               </motion.div>

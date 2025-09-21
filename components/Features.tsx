@@ -44,7 +44,7 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-20 bg-gray-50">
+    <section id="features" className="py-20 bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -54,10 +54,10 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Why Choose <span className="gradient-text">BDS PRO</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Experience the next generation of crypto trading with our cutting-edge platform 
             designed for both beginners and experienced traders.
           </p>
@@ -73,15 +73,15 @@ const Features = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+              className="bg-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-600"
             >
               <div className="flex items-center mb-6">
                 <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mr-4`}>
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">{feature.title}</h3>
+                <h3 className="text-xl font-bold text-white">{feature.title}</h3>
               </div>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed">
                 {feature.description}
               </p>
             </motion.div>

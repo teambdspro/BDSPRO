@@ -384,7 +384,7 @@ export default function DashboardPage() {
   const SidebarLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition"
+      className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 hover:bg-gray-700 transition"
     >
       {children}
     </Link>
@@ -393,18 +393,18 @@ export default function DashboardPage() {
   const Card = ({ title, value, Icon, onClick, isAccountBalance = false }: { title: string; value: string; Icon: React.ComponentType<{ className?: string }>, onClick?: () => void, isAccountBalance?: boolean }) => (
     <button 
       onClick={onClick} 
-      className={`rounded-2xl border border-white/20 bg-white/95 backdrop-blur-sm p-6 shadow-2xl text-left hover:shadow-xl hover:bg-white transition-all duration-300 ${isAccountBalance ? 'cursor-pointer' : ''}`}
+      className={`rounded-2xl border border-gray-600 bg-gray-800/95 backdrop-blur-sm p-6 shadow-2xl text-left hover:shadow-xl hover:bg-gray-700 transition-all duration-300 ${isAccountBalance ? 'cursor-pointer' : ''}`}
     >
       <div className="flex items-start gap-4">
         <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 grid place-items-center">
           <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
-          <p className="text-xs font-semibold tracking-wider text-gray-600">{title.toUpperCase()}</p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">{value}</p>
-          <p className="mt-1 text-xs font-semibold text-emerald-500">+0.00%</p>
+          <p className="text-xs font-semibold tracking-wider text-gray-400">{title.toUpperCase()}</p>
+          <p className="mt-2 text-2xl font-bold text-white">{value}</p>
+          <p className="mt-1 text-xs font-semibold text-emerald-400">+0.00%</p>
           {isAccountBalance && (
-            <p className="mt-1 text-xs text-blue-600">Click to view transaction history</p>
+            <p className="mt-1 text-xs text-blue-400">Click to view transaction history</p>
           )}
         </div>
       </div>
@@ -486,10 +486,10 @@ export default function DashboardPage() {
       {/* Content */}
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-8 md:grid-cols-[260px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-white/20 bg-white/95 backdrop-blur-sm p-4 shadow-2xl">
-          <Link href="/" className="mb-4 flex items-center gap-2 px-2 hover:bg-gray-50 rounded-lg py-2 transition-colors">
-            <Home className="h-5 w-5 text-primary-600" />
-            <span className="text-sm font-semibold text-gray-800">Home</span>
+        <aside className="h-fit rounded-2xl border border-gray-600 bg-gray-800/95 backdrop-blur-sm p-4 shadow-2xl">
+          <Link href="/" className="mb-4 flex items-center gap-2 px-2 hover:bg-gray-700 rounded-lg py-2 transition-colors">
+            <Home className="h-5 w-5 text-blue-400" />
+            <span className="text-sm font-semibold text-gray-200">Home</span>
           </Link>
           <nav className="flex flex-col gap-1">
             <SidebarLink href="/dashboard">
@@ -508,10 +508,10 @@ export default function DashboardPage() {
               <Users className="h-5 w-5" />
               <span>Referral and Team</span>
             </SidebarLink>
-            <div className="mt-2 h-px bg-gray-200" />
+            <div className="mt-2 h-px bg-gray-600" />
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 transition w-full text-left"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 hover:bg-gray-700 transition w-full text-left"
             >
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
