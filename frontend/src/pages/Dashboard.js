@@ -161,7 +161,7 @@ const Dashboard = () => {
   const sidebarItems = [
     { id: 'home', label: 'Home', icon: Home, color: 'gray' },
     { id: 'dashboard', label: 'Dashboard', icon: TrendingUp, color: 'blue' },
-    { id: 'account', label: 'My Account', icon: User, color: 'green' },
+    { id: 'account', label: 'Deposit', icon: User, color: 'green' },
     { id: 'referral', label: 'My Referral', icon: Users, color: 'purple' }
   ];
 
@@ -364,7 +364,7 @@ const Dashboard = () => {
             <div className="space-y-6">
               {/* Header */}
               <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
-                <h2 className="text-3xl font-bold mb-2">My Account</h2>
+                <h2 className="text-3xl font-bold mb-2">Deposit</h2>
                 <p className="text-green-100">Manage your account settings and preferences</p>
               </div>
 

@@ -502,7 +502,7 @@ export default function DashboardPage() {
             </SidebarLink>
             <SidebarLink href="/account">
               <User className="h-5 w-5" />
-              <span>My Account</span>
+              <span>Deposit</span>
             </SidebarLink>
             <SidebarLink href="/referral">
               <Users className="h-5 w-5" />

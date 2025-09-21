@@ -547,7 +547,7 @@ export default function MyAccountPage() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">My Account</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Deposit</h1>
           <p className="text-blue-200">Manage your account and deposit funds.</p>
         </div>
 
