@@ -270,10 +270,25 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+        {/* Professional Futuristic Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `
+                linear-gradient(90deg, transparent 98%, #00BFFF 100%),
+                linear-gradient(0deg, transparent 98%, #00BFFF 100%),
+                radial-gradient(circle at 20% 20%, #00BFFF 3px, transparent 3px),
+                radial-gradient(circle at 80% 80%, #00BFFF 3px, transparent 3px)
+              `,
+              backgroundSize: '60px 60px, 60px 60px, 120px 120px, 120px 120px',
+              backgroundPosition: '0 0, 0 0, 0 0, 0 0'
+            }}></div>
+          </div>
+        </div>
+        <div className="relative z-10 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto"></div>
+          <p className="mt-4 text-white">Loading...</p>
         </div>
       </div>
     );
@@ -281,9 +296,24 @@ export default function DashboardPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto p-6">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+        {/* Professional Futuristic Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `
+                linear-gradient(90deg, transparent 98%, #00BFFF 100%),
+                linear-gradient(0deg, transparent 98%, #00BFFF 100%),
+                radial-gradient(circle at 20% 20%, #00BFFF 3px, transparent 3px),
+                radial-gradient(circle at 80% 80%, #00BFFF 3px, transparent 3px)
+              `,
+              backgroundSize: '60px 60px, 60px 60px, 120px 120px, 120px 120px',
+              backgroundPosition: '0 0, 0 0, 0 0, 0 0'
+            }}></div>
+          </div>
+        </div>
+        <div className="relative z-10 text-center max-w-md mx-auto p-6">
+          <div className="bg-red-50/95 backdrop-blur-sm border border-red-200 rounded-lg p-6 shadow-2xl">
             <div className="text-red-600 text-6xl mb-4">⚠️</div>
             <h2 className="text-xl font-semibold text-red-800 mb-2">Authentication Error</h2>
             <p className="text-red-600 mb-4">{error}</p>
@@ -365,14 +395,14 @@ export default function DashboardPage() {
   const Card = ({ title, value, Icon, onClick, isAccountBalance = false }: { title: string; value: string; Icon: React.ComponentType<{ className?: string }>, onClick?: () => void, isAccountBalance?: boolean }) => (
     <button 
       onClick={onClick} 
-      className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-sm text-left hover:shadow-md transition ${isAccountBalance ? 'cursor-pointer' : ''}`}
+      className={`rounded-2xl border border-white/20 bg-white/95 backdrop-blur-sm p-6 shadow-2xl text-left hover:shadow-xl hover:bg-white transition-all duration-300 ${isAccountBalance ? 'cursor-pointer' : ''}`}
     >
       <div className="flex items-start gap-4">
         <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 grid place-items-center">
           <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
-          <p className="text-xs font-semibold tracking-wider text-gray-500">{title.toUpperCase()}</p>
+          <p className="text-xs font-semibold tracking-wider text-gray-600">{title.toUpperCase()}</p>
           <p className="mt-2 text-2xl font-bold text-gray-900">{value}</p>
           <p className="mt-1 text-xs font-semibold text-emerald-500">+0.00%</p>
           {isAccountBalance && (
@@ -384,10 +414,81 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-8 md:grid-cols-[260px_1fr]">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Professional Futuristic Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        {/* Circuit Board Pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(90deg, transparent 98%, #00BFFF 100%),
+              linear-gradient(0deg, transparent 98%, #00BFFF 100%),
+              radial-gradient(circle at 20% 20%, #00BFFF 3px, transparent 3px),
+              radial-gradient(circle at 80% 80%, #00BFFF 3px, transparent 3px),
+              radial-gradient(circle at 40% 60%, #FF1493 2px, transparent 2px),
+              radial-gradient(circle at 60% 40%, #FF1493 2px, transparent 2px)
+            `,
+            backgroundSize: '60px 60px, 60px 60px, 120px 120px, 120px 120px, 80px 80px, 80px 80px',
+            backgroundPosition: '0 0, 0 0, 0 0, 0 0, 0 0, 0 0'
+          }}></div>
+        </div>
+        
+        {/* Central Glowing Logo Area */}
+        <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-blue-400/30 rounded-full"></div>
+        </div>
+        
+        {/* Financial Charts Simulation */}
+        <div className="absolute left-8 top-1/3 w-32 h-40 opacity-15">
+          <div className="flex items-end space-x-1 h-full">
+            <div className="w-2 bg-green-400 h-8"></div>
+            <div className="w-2 bg-red-400 h-12"></div>
+            <div className="w-2 bg-green-400 h-6"></div>
+            <div className="w-2 bg-red-400 h-10"></div>
+            <div className="w-2 bg-green-400 h-14"></div>
+            <div className="w-2 bg-red-400 h-8"></div>
+            <div className="w-2 bg-green-400 h-11"></div>
+            <div className="w-2 bg-red-400 h-9"></div>
+          </div>
+        </div>
+        
+        <div className="absolute right-8 top-1/4 w-32 h-40 opacity-15">
+          <div className="flex items-end space-x-1 h-full">
+            <div className="w-2 bg-red-400 h-10"></div>
+            <div className="w-2 bg-green-400 h-7"></div>
+            <div className="w-2 bg-red-400 h-13"></div>
+            <div className="w-2 bg-green-400 h-9"></div>
+            <div className="w-2 bg-red-400 h-6"></div>
+            <div className="w-2 bg-green-400 h-12"></div>
+            <div className="w-2 bg-red-400 h-8"></div>
+            <div className="w-2 bg-green-400 h-10"></div>
+          </div>
+        </div>
+        
+        {/* Data Stream Lines */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"></div>
+          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse delay-500"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse delay-1000"></div>
+          <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent animate-pulse delay-1500"></div>
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse delay-2000"></div>
+        </div>
+        
+        {/* Glowing Orbs */}
+        <div className="absolute top-1/6 left-1/6 w-24 h-24 bg-blue-500/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/6 right-1/6 w-32 h-32 bg-cyan-500/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 right-1/4 w-20 h-20 bg-pink-500/15 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-28 h-28 bg-purple-500/15 rounded-full blur-3xl animate-pulse delay-3000"></div>
+      </div>
+      
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/20"></div>
+      
+      {/* Content */}
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-8 md:grid-cols-[260px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+        <aside className="h-fit rounded-2xl border border-white/20 bg-white/95 backdrop-blur-sm p-4 shadow-2xl">
           <Link href="/" className="mb-4 flex items-center gap-2 px-2 hover:bg-gray-50 rounded-lg py-2 transition-colors">
             <Home className="h-5 w-5 text-primary-600" />
             <span className="text-sm font-semibold text-gray-800">Home</span>
@@ -422,8 +523,8 @@ export default function DashboardPage() {
 
         {/* Main */}
         <main>
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">Dashboard</h1>
-          <p className="mt-1 text-gray-600">Welcome back! Here's your trading overview.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-white">Dashboard</h1>
+          <p className="mt-1 text-gray-200">Welcome back! Here's your trading overview.</p>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {cards.map((c) => (
