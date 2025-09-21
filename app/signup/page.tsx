@@ -5,17 +5,38 @@ import { motion } from 'framer-motion';
 export default function SignupPage() {
   return (
     <div className="min-h-screen relative flex items-center justify-center px-4 py-12 overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJjaXJjdWl0R3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjAuOSIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4xIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0iIzAwMDAwMCIvPgo8ZyBmaWxsPSJ1cmwoI2NpcmN1aXRHcmFkaWVudCkiPgo8cGF0aCBkPSJNMCwwIEw1MCwyMCBMMTAwLDAgTDE1MCwyMCBMMjAwLDAgTDI1MCwyMCBMMzAwLDAgTDM1MCwyMCBMMzAwLDAgTDI1MCwyMCBMMjAwLDAgTDE1MCwyMCBMMTAwLDAgTDUwLDIwIFoiLz4KPHBhdGggZD0iTTAsMTA4MCBMNTAsMTA2MCBMMTAwLDEwODAgTDE1MCwxMDYwIEwyMDAsMTA4MCBMMjUwLDEwNjAgTDMwMCwxMDgwIEwzNTAsMTA2MCBMMzAwLDEwODAgTDI1MCwxMDYwIEwyMDAsMTA4MCBMMTUwLDEwNjAgTDEwMCwxMDgwIEw1MCwxMDYwIFoiLz4KPC9nPgo8Y2lyY2xlIGN4PSI5NjAiIGN5PSI1NDAiIHI9IjEwMCIgZmlsbD0iIzAwN0JGRiIgZmlsdGVyPSJibHVyKDIwcHgpIi8+CjxjaXJjbGUgY3g9Ijk2MCIgY3k9IjU0MCIgcj0iNjAiIGZpbGw9IiMwMDdCRkYiLz4KPHN2ZyB4PSI5MDAiIHk9IjQ4MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiPgo8cGF0aCBkPSJNMzAsNjAgTDUwLDQwIEw3MCw2MCBMNTAsODAgWiIgZmlsbD0iIzAwN0JGRiIvPgo8cGF0aCBkPSJNNDAsNTAgTDYwLTMwIEw4MCw1MCBMNjAsNzAgWiIgZmlsbD0iIzAwN0JGRiIvPgo8L3N2Zz4KPHN2ZyB4PSI5MDAiIHk9IjQ4MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiPgo8cGF0aCBkPSJNMzAsNjAgTDUwLDQwIEw3MCw2MCBMNTAsODAgWiIgZmlsbD0iIzAwN0JGRiIvPgo8cGF0aCBkPSJNNDAsNTAgTDYwLTMwIEw4MCw1MCBMNjAsNzAgWiIgZmlsbD0iIzAwN0JGRiIvPgo8L3N2Zz4KPC9zdmc+')`,
-          filter: 'brightness(0.3) contrast(1.2)'
-        }}
-      />
+      {/* Professional Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        {/* Circuit Pattern Overlay */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(90deg, transparent 98%, #00BFFF 100%),
+              linear-gradient(0deg, transparent 98%, #00BFFF 100%),
+              radial-gradient(circle at 25% 25%, #00BFFF 2px, transparent 2px),
+              radial-gradient(circle at 75% 75%, #00BFFF 2px, transparent 2px)
+            `,
+            backgroundSize: '50px 50px, 50px 50px, 100px 100px, 100px 100px',
+            backgroundPosition: '0 0, 0 0, 0 0, 0 0'
+          }}></div>
+        </div>
+        
+        {/* Glowing Elements */}
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
+        
+        {/* Data Stream Lines */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"></div>
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse delay-1000"></div>
+          <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse delay-2000"></div>
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse delay-3000"></div>
+        </div>
+      </div>
       
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      <div className="absolute inset-0 bg-black/30"></div>
       
       {/* Content */}
       <div className="relative z-10 w-full max-w-md">
@@ -26,7 +47,7 @@ export default function SignupPage() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold gradient-text mb-2">BDS PRO</h1>
-          <p className="text-gray-600">Join the future of crypto trading</p>
+          <p className="text-gray-200">Join the future of crypto trading</p>
         </motion.div>
         
         <SignupForm />
@@ -34,5 +55,3 @@ export default function SignupPage() {
     </div>
   );
 }
-
-
