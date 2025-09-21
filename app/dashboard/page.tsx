@@ -384,7 +384,9 @@ export default function DashboardPage() {
   const SidebarLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
     <Link
       href={href}
-      className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 hover:bg-gray-700 transition"
+      className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition"
+      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2D2E3F'}
+      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
     >
       {children}
     </Link>
@@ -393,10 +395,13 @@ export default function DashboardPage() {
   const Card = ({ title, value, Icon, onClick, isAccountBalance = false }: { title: string; value: string; Icon: React.ComponentType<{ className?: string }>, onClick?: () => void, isAccountBalance?: boolean }) => (
     <button 
       onClick={onClick} 
-      className={`rounded-2xl border border-gray-600 bg-gray-800/95 backdrop-blur-sm p-6 shadow-2xl text-left hover:shadow-xl hover:bg-gray-700 transition-all duration-300 ${isAccountBalance ? 'cursor-pointer' : ''}`}
+      className={`rounded-2xl border backdrop-blur-sm p-6 shadow-2xl text-left hover:shadow-xl transition-all duration-300 ${isAccountBalance ? 'cursor-pointer' : ''}`}
+      style={{ backgroundColor: 'rgba(26, 27, 38, 0.95)', borderColor: '#2D2E3F' }}
+      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(45, 46, 63, 0.95)'}
+      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(26, 27, 38, 0.95)'}
     >
       <div className="flex items-start gap-4">
-        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 grid place-items-center">
+        <div className="h-12 w-12 rounded-xl grid place-items-center" style={{ background: 'linear-gradient(90deg, #00AFFF, #8000FF, #FF00FF)' }}>
           <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
@@ -404,7 +409,7 @@ export default function DashboardPage() {
           <p className="mt-2 text-2xl font-bold text-white">{value}</p>
           <p className="mt-1 text-xs font-semibold text-emerald-400">+0.00%</p>
           {isAccountBalance && (
-            <p className="mt-1 text-xs text-blue-400">Click to view transaction history</p>
+            <p className="mt-1 text-xs" style={{ color: '#00AFFF' }}>Click to view transaction history</p>
           )}
         </div>
       </div>
@@ -414,7 +419,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Professional Futuristic Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A1B26, #2D2E3F, #1A1B26)' }}>
         {/* Circuit Board Pattern */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
@@ -486,9 +491,9 @@ export default function DashboardPage() {
       {/* Content */}
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-8 md:grid-cols-[260px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-gray-600 bg-gray-800/95 backdrop-blur-sm p-4 shadow-2xl">
-          <Link href="/" className="mb-4 flex items-center gap-2 px-2 hover:bg-gray-700 rounded-lg py-2 transition-colors">
-            <Home className="h-5 w-5 text-blue-400" />
+        <aside className="h-fit rounded-2xl border backdrop-blur-sm p-4 shadow-2xl" style={{ backgroundColor: 'rgba(26, 27, 38, 0.95)', borderColor: '#2D2E3F' }}>
+          <Link href="/" className="mb-4 flex items-center gap-2 px-2 rounded-lg py-2 transition-colors" style={{ color: '#00AFFF' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2D2E3F'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+            <Home className="h-5 w-5" style={{ color: '#00AFFF' }} />
             <span className="text-sm font-semibold text-gray-200">Home</span>
           </Link>
           <nav className="flex flex-col gap-1">

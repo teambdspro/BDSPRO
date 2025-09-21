@@ -53,7 +53,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-gray-900 text-white`}>
+      <body className={`${inter.className} text-white`} style={{ backgroundColor: '#1A1B26' }}>
         <SessionProvider>
           <Toaster 
             position="top-right"

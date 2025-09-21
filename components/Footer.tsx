@@ -49,7 +49,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-950 text-white">
+    <footer className="text-white" style={{ backgroundColor: '#0F1014' }}>
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">

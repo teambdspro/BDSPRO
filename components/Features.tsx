@@ -44,7 +44,7 @@ const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-20 bg-gray-800">
+    <section id="features" className="py-20" style={{ backgroundColor: '#2D2E3F' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -55,7 +55,7 @@ const Features = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Why Choose <span className="gradient-text">BDS PRO</span>
+            Why Choose <span className="gradient-text" style={{ background: 'linear-gradient(90deg, #00AFFF, #8000FF, #FF00FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>BDS PRO</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Experience the next generation of crypto trading with our cutting-edge platform 
@@ -73,7 +73,7 @@ const Features = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
-              className="bg-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-600"
+              className="rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border" style={{ backgroundColor: '#1A1B26', borderColor: '#2D2E3F' }}
             >
               <div className="flex items-center mb-6">
                 <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mr-4`}>

@@ -36,7 +36,7 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-gray-800">
+    <section id="contact" className="py-20" style={{ backgroundColor: '#1A1B26' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -47,7 +47,7 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Get in <span className="gradient-text">Touch</span>
+            Get in <span className="gradient-text" style={{ background: 'linear-gradient(90deg, #00AFFF, #8000FF, #FF00FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Touch</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Have questions about our platform? Our dedicated team is here to help you 
@@ -65,7 +65,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
-              className="bg-gray-700 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+              className="rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center" style={{ backgroundColor: '#2D2E3F' }}
             >
               <div className={`w-16 h-16 bg-gradient-to-r ${info.color} rounded-xl flex items-center justify-center mx-auto mb-6`}>
                 <info.icon className="w-8 h-8 text-white" />
@@ -74,7 +74,7 @@ const Contact = () => {
               {info.link ? (
                 <a
                   href={info.link}
-                  className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+                  className="font-medium transition-colors duration-200" style={{ color: '#00AFFF' }}
                   target={info.link.startsWith('http') ? '_blank' : '_self'}
                   rel={info.link.startsWith('http') ? 'noopener noreferrer' : ''}
                 >

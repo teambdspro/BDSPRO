@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A1B26, #2D2E3F, #1A1B26)' }} />
       
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -56,7 +56,7 @@ const Hero = () => {
           >
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               The Future of{' '}
-              <span className="gradient-text">Crypto Trading</span>
+              <span className="gradient-text" style={{ background: 'linear-gradient(90deg, #00AFFF, #8000FF, #FF00FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Crypto Trading</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Empowering traders through high-quality tools, education, and support. 
@@ -108,7 +108,7 @@ const Hero = () => {
                 className="text-center"
               >
                 <div className="flex justify-center mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #00AFFF, #8000FF, #FF00FF)' }}>
                     <stat.icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
