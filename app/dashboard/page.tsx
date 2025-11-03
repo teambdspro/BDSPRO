@@ -230,7 +230,7 @@ export default function DashboardPage() {
           console.log('User data received:', data);
           
           // Parse stored user data once if available
-          let parsedStoredData = {};
+          let parsedStoredData: any = {};
           if (storedUserData) {
             try {
               parsedStoredData = JSON.parse(storedUserData);
