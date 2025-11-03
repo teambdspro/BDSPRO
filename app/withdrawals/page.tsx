@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   ArrowUpRight, 
   AlertCircle,
   CheckCircle,
-  Clock
+  Clock,
+  Wallet,
+  TrendingUp,
+  DollarSign
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -24,6 +27,106 @@ export default function WithdrawalsPage() {
   const [selectedNetwork, setSelectedNetwork] = useState('trc20');
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // User data state
+  const [userData, setUserData] = useState<any>(null);
+  const [userLoading, setUserLoading] = useState(true);
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setUserLoading(true);
+        const token = localStorage.getItem('authToken');
+        const storedUserData = localStorage.getItem('userData');
+        
+        // First, try to use stored user data
+        if (storedUserData) {
+          try {
+            const parsedUserData = JSON.parse(storedUserData);
+            if (parsedUserData && parsedUserData.account_balance !== undefined) {
+              setUserData(parsedUserData);
+            }
+          } catch (parseError) {
+            console.error('Error parsing stored user data:', parseError);
+          }
+        }
+        
+        if (!token) {
+          console.error('No token found in localStorage');
+          setUserLoading(false);
+          return;
+        }
+        
+        const response = await fetch(`/api/dashboard/user-data`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Parse stored user data once if available
+          let parsedStoredData: any = {};
+          if (storedUserData) {
+            try {
+              parsedStoredData = JSON.parse(storedUserData);
+            } catch (e) {
+              console.error('Error parsing stored user data:', e);
+            }
+          }
+          
+          // Merge API data with stored data
+          const mergedData = {
+            ...data.data,
+            name: data.data?.name || parsedStoredData?.name || null,
+            email: data.data?.email || parsedStoredData?.email || null
+          };
+          
+          setUserData(mergedData);
+          
+          // Update localStorage with complete data
+          if (mergedData.name && mergedData.email) {
+            localStorage.setItem('userData', JSON.stringify(mergedData));
+          }
+        } else {
+          // Use stored data as fallback if API fails
+          if (storedUserData) {
+            try {
+              const parsedData = JSON.parse(storedUserData);
+              if (parsedData.account_balance !== undefined) {
+                setUserData(parsedData);
+              }
+            } catch (e) {
+              console.error('Error using stored data fallback:', e);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        
+        // Try to use stored data as last resort
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+          try {
+            const parsedData = JSON.parse(storedUserData);
+            if (parsedData.account_balance !== undefined) {
+              setUserData(parsedData);
+            }
+          } catch (e) {
+            console.error('Error using stored data after error:', e);
+          }
+        }
+      } finally {
+        setUserLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,6 +163,8 @@ export default function WithdrawalsPage() {
     
     if (!formData.amount || parseFloat(formData.amount) < 10) {
       errors.amount = 'Minimum withdrawal is 10 USDT';
+    } else if (userData && parseFloat(formData.amount) > parseFloat(userData.account_balance || '0')) {
+      errors.amount = `Insufficient balance. Available: $${Number(userData.account_balance || 0).toFixed(2)} USDT`;
     }
     
     setFormErrors(errors);
@@ -118,6 +223,73 @@ export default function WithdrawalsPage() {
         </div>
 
         <div className="max-w-2xl mx-auto">
+          {/* Account Balance Information */}
+          <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Account Information</h2>
+            
+            {userLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <p className="ml-3 text-gray-600">Loading account information...</p>
+              </div>
+            ) : userData ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Account Balance */}
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <Wallet className="w-5 h-5 text-blue-600" />
+                    <span className="text-xs font-medium text-blue-600 uppercase">Balance</span>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    ${Number(userData.account_balance || 0).toFixed(2)}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">Available USDT</p>
+                </div>
+
+                {/* Total Earnings */}
+                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <span className="text-xs font-medium text-green-600 uppercase">Earnings</span>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    ${Number(userData.total_earning || 0).toFixed(2)}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">Total Earnings</p>
+                </div>
+
+                {/* Rewards */}
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <DollarSign className="w-5 h-5 text-purple-600" />
+                    <span className="text-xs font-medium text-purple-600 uppercase">Rewards</span>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    ${Number(userData.rewards || 0).toFixed(2)}
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">Available Rewards</p>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <AlertCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p className="text-gray-500">Unable to load account information</p>
+              </div>
+            )}
+
+            {/* Balance Warning */}
+            {userData && parseFloat(formData.amount || '0') > parseFloat(userData.account_balance || '0') && (
+              <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
+                <div className="flex items-start space-x-2">
+                  <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-red-700">
+                    <span className="font-semibold">Insufficient Balance:</span> You are trying to withdraw ${parseFloat(formData.amount || '0').toFixed(2)} but your available balance is only ${Number(userData.account_balance || 0).toFixed(2)} USDT.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Withdrawal Request</h2>
             
