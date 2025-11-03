@@ -32,8 +32,20 @@ export default function LoginForm() {
 
       if (response.ok) {
         // Store user data in localStorage
-        localStorage.setItem('userData', JSON.stringify(data.data.user));
-        localStorage.setItem('authToken', data.data.token);
+        const userData = data.data.user;
+        console.log('Storing user data after login:', userData);
+        
+        // Ensure we have name and email before storing
+        if (userData && (userData.name || userData.email)) {
+          localStorage.setItem('userData', JSON.stringify(userData));
+          localStorage.setItem('authToken', data.data.token);
+          console.log('User data stored successfully:', { name: userData.name, email: userData.email });
+        } else {
+          console.warn('User data missing name or email:', userData);
+          // Still store it, but log a warning
+          localStorage.setItem('userData', JSON.stringify(userData || {}));
+          localStorage.setItem('authToken', data.data.token);
+        }
         
         // Redirect to dashboard
         router.push('/dashboard');

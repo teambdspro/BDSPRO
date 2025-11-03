@@ -186,12 +186,27 @@ export default function DashboardPage() {
       try {
         setUserLoading(true);
         const token = localStorage.getItem('authToken');
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+        const storedUserData = localStorage.getItem('userData');
         
         console.log('=== FETCHING USER DATA ===');
         console.log('isAuthenticated:', isAuthenticated);
         console.log('loading:', loading);
         console.log('Token from localStorage:', token ? `${token.substring(0, 20)}...` : 'MISSING');
+        console.log('Stored userData from localStorage:', storedUserData);
+        
+        // First, try to use stored user data as fallback
+        if (storedUserData) {
+          try {
+            const parsedUserData = JSON.parse(storedUserData);
+            console.log('Parsed stored user data:', parsedUserData);
+            // Set initial user data from localStorage if available
+            if (parsedUserData && parsedUserData.name && parsedUserData.email) {
+              setUserData(parsedUserData);
+            }
+          } catch (parseError) {
+            console.error('Error parsing stored user data:', parseError);
+          }
+        }
         
         if (!token) {
           console.error('No token found in localStorage');
@@ -213,16 +228,58 @@ export default function DashboardPage() {
         if (response.ok) {
           const data = await response.json();
           console.log('User data received:', data);
-          setUserData(data.data);
+          
+          // Parse stored user data once if available
+          let parsedStoredData = {};
+          if (storedUserData) {
+            try {
+              parsedStoredData = JSON.parse(storedUserData);
+            } catch (e) {
+              console.error('Error parsing stored user data in merge:', e);
+            }
+          }
+          
+          // Ensure we have name and email - merge with stored data if API data is incomplete
+          const mergedData = {
+            ...data.data,
+            // Use stored data if API data is missing name/email
+            name: data.data?.name || parsedStoredData?.name || null,
+            email: data.data?.email || parsedStoredData?.email || null
+          };
+          
+          console.log('Merged user data:', mergedData);
+          setUserData(mergedData);
+          
+          // Update localStorage with complete data
+          if (mergedData.name && mergedData.email) {
+            localStorage.setItem('userData', JSON.stringify(mergedData));
+          }
+          
           setError(null);
           
           // Fetch transactions for this user
-          if (data.data && data.data.user_id) {
-            await fetchTransactions(data.data.user_id);
+          if (mergedData.user_id) {
+            await fetchTransactions(mergedData.user_id);
           }
         } else {
           const errorText = await response.text();
           console.error('Failed to fetch user data:', response.status, errorText);
+          
+          // Use stored data as fallback if API fails but we have stored data
+          if (storedUserData) {
+            try {
+              const parsedData = JSON.parse(storedUserData);
+              if (parsedData.name && parsedData.email) {
+                console.log('Using stored user data as fallback');
+                setUserData(parsedData);
+                setError(null);
+                return;
+              }
+            } catch (e) {
+              console.error('Error using stored data fallback:', e);
+            }
+          }
+          
           setError(`Failed to load user data: ${errorText}`);
           
           // If token is invalid, redirect to login
@@ -234,6 +291,22 @@ export default function DashboardPage() {
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+        
+        // Try to use stored data as last resort
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+          try {
+            const parsedData = JSON.parse(storedUserData);
+            if (parsedData.name && parsedData.email) {
+              console.log('Using stored user data after error');
+              setUserData(parsedData);
+              return;
+            }
+          } catch (e) {
+            console.error('Error using stored data after error:', e);
+          }
+        }
+        
         setError(`Network error: ${error instanceof Error ? error.message : 'Unknown error'}`);
       } finally {
         setUserLoading(false);
@@ -538,7 +611,13 @@ export default function DashboardPage() {
         {/* Main */}
         <main>
           <h1 className="text-3xl font-extrabold tracking-tight text-white">Dashboard</h1>
-          <p className="mt-1 text-gray-200">Welcome back! Here's your trading overview.</p>
+          <p className="mt-1 text-gray-200">
+            {userData && userData.name ? (
+              <>Welcome back, <span className="font-semibold text-blue-400">{userData.name}</span>! Here's your trading overview.</>
+            ) : (
+              <>Welcome back! Here's your trading overview.</>
+            )}
+          </p>
 
           {/* Profile Section */}
           <div className="mt-6 rounded-2xl border backdrop-blur-sm p-6 shadow-2xl" style={{ backgroundColor: 'rgba(26, 27, 38, 0.95)', borderColor: '#2D2E3F' }}>
@@ -566,7 +645,7 @@ export default function DashboardPage() {
                       <User className="h-5 w-5 text-gray-400" />
                       <span className="text-sm font-semibold text-gray-400">Full Name</span>
                     </div>
-                    <span className="text-sm font-medium text-white">{userData.name || 'N/A'}</span>
+                    <span className="text-sm font-medium text-white">{userData.name || userData.email?.split('@')[0] || 'User'}</span>
                   </div>
 
                   <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
@@ -575,7 +654,7 @@ export default function DashboardPage() {
                       <span className="text-sm font-semibold text-gray-400">Email Address</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-white">{userData.email || 'N/A'}</span>
+                      <span className="text-sm font-medium text-white">{userData.email || 'No email provided'}</span>
                       <button
                         onClick={() => copyToClipboard(userData.email || '', 'email')}
                         className="p-1 hover:bg-gray-700 rounded transition-colors"
