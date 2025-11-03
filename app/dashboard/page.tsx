@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { LogOut, User, Users, LayoutGrid, Wallet, TrendingUp, Gift, Briefcase, ArrowUpRight, Home } from 'lucide-react';
+import { LogOut, User, Users, LayoutGrid, Wallet, TrendingUp, Gift, Briefcase, ArrowUpRight, Home, Mail, Hash, Copy, CheckCircle } from 'lucide-react';
 
 type StatCard = {
   title: string;
@@ -41,6 +41,7 @@ export default function DashboardPage() {
   // User data state
   const [userData, setUserData] = useState<any>(null);
   const [userLoading, setUserLoading] = useState(true);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Fetch transactions function
   const fetchTransactions = async (userId: string) => {
@@ -249,6 +250,16 @@ export default function DashboardPage() {
     localStorage.removeItem('token');
     // NextAuth will handle its own session cleanup
     router.push('/login');
+  };
+
+  const copyToClipboard = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   // Debug function to manually set a token (for testing)
@@ -528,6 +539,135 @@ export default function DashboardPage() {
         <main>
           <h1 className="text-3xl font-extrabold tracking-tight text-white">Dashboard</h1>
           <p className="mt-1 text-gray-200">Welcome back! Here's your trading overview.</p>
+
+          {/* Profile Section */}
+          <div className="mt-6 rounded-2xl border backdrop-blur-sm p-6 shadow-2xl" style={{ backgroundColor: 'rgba(26, 27, 38, 0.95)', borderColor: '#2D2E3F' }}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-12 w-12 rounded-xl grid place-items-center" style={{ background: 'linear-gradient(90deg, #00AFFF, #8000FF, #FF00FF)' }}>
+                <User className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">Profile Information</h2>
+                <p className="text-sm text-gray-400">Your account details and basic information</p>
+              </div>
+            </div>
+
+            {userLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                <p className="ml-3 text-gray-400">Loading profile...</p>
+              </div>
+            ) : userData ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Column */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
+                    <div className="flex items-center gap-3">
+                      <User className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">Full Name</span>
+                    </div>
+                    <span className="text-sm font-medium text-white">{userData.name || 'N/A'}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
+                    <div className="flex items-center gap-3">
+                      <Mail className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">Email Address</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-white">{userData.email || 'N/A'}</span>
+                      <button
+                        onClick={() => copyToClipboard(userData.email || '', 'email')}
+                        className="p-1 hover:bg-gray-700 rounded transition-colors"
+                        title="Copy email"
+                      >
+                        {copiedField === 'email' ? (
+                          <CheckCircle className="h-4 w-4 text-green-400" />
+                        ) : (
+                          <Copy className="h-4 w-4 text-gray-400" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
+                    <div className="flex items-center gap-3">
+                      <Hash className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">User ID</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-white">#{userData.user_id || 'N/A'}</span>
+                      <button
+                        onClick={() => copyToClipboard(userData.user_id?.toString() || '', 'user_id')}
+                        className="p-1 hover:bg-gray-700 rounded transition-colors"
+                        title="Copy user ID"
+                      >
+                        {copiedField === 'user_id' ? (
+                          <CheckCircle className="h-4 w-4 text-green-400" />
+                        ) : (
+                          <Copy className="h-4 w-4 text-gray-400" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
+                    <div className="flex items-center gap-3">
+                      <Hash className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">Referral Code</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-white">{userData.referral_code || 'N/A'}</span>
+                      {userData.referral_code && (
+                        <button
+                          onClick={() => copyToClipboard(userData.referral_code || '', 'referral')}
+                          className="p-1 hover:bg-gray-700 rounded transition-colors"
+                          title="Copy referral code"
+                        >
+                          {copiedField === 'referral' ? (
+                            <CheckCircle className="h-4 w-4 text-green-400" />
+                          ) : (
+                            <Copy className="h-4 w-4 text-gray-400" />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
+                    <div className="flex items-center gap-3">
+                      <Wallet className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">Account Balance</span>
+                    </div>
+                    <span className="text-sm font-medium text-white">${Number(userData.account_balance || 0).toFixed(2)} USDT</span>
+                  </div>
+
+                  <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: '#2D2E3F' }}>
+                    <div className="flex items-center gap-3">
+                      <TrendingUp className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">Total Earnings</span>
+                    </div>
+                    <span className="text-sm font-medium text-white">${Number(userData.total_earning || 0).toFixed(2)} USDT</span>
+                  </div>
+
+                  <div className="flex items-center justify-between py-3">
+                    <div className="flex items-center gap-3">
+                      <Gift className="h-5 w-5 text-gray-400" />
+                      <span className="text-sm font-semibold text-gray-400">Rewards</span>
+                    </div>
+                    <span className="text-sm font-medium text-white">${Number(userData.rewards || 0).toFixed(2)} USDT</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-400">Unable to load profile information</p>
+              </div>
+            )}
+          </div>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {cards.map((c) => (
